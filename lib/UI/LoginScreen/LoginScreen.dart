@@ -1,5 +1,3 @@
-
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,8 @@ class ScreenLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        //To avoid widget resize on keyboard appeares
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             Container(
@@ -82,23 +82,28 @@ class ScreenLogin extends StatelessWidget {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.person),
-                          hintText: 'Email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.person),
+                            hintText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                      ),
+                          onSubmitted: (value) {}),
                       cHeight30,
                       TextField(
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.key),
+                          suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.remove_red_eye_outlined),
+                          ),
                           hintText: 'Password',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        onSubmitted: (value) {},
                       ),
                       TextButton(
                         onPressed: () {},
@@ -135,7 +140,6 @@ class ScreenLogin extends StatelessWidget {
                       ),
                       cHeight30,
                       Container(
-
                         width: MediaQuery.of(context).size.width * .65,
                         height: MediaQuery.of(context).size.height * .06,
                         decoration: BoxDecoration(
@@ -151,16 +155,14 @@ class ScreenLogin extends StatelessWidget {
                               Text('LOGIN WITH GOOGLE'),
                             ],
                           ),
-
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.red),
-
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
                           ),
                         ),
                       ),
                       cHeight30,
                       Container(
-
                         width: MediaQuery.of(context).size.width * .65,
                         height: MediaQuery.of(context).size.height * .06,
                         decoration: BoxDecoration(
@@ -187,7 +189,13 @@ class ScreenLogin extends StatelessWidget {
               bottom: MediaQuery.of(context).size.height / 5,
               left: MediaQuery.of(context).size.width / 4,
               child: Row(
-                children: [Text('Dont have an account'),TextButton(onPressed: (){},child: Text('Sign Up'),)],
+                children: [
+                  Text('Dont have an account'),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Sign Up'),
+                  )
+                ],
               ),
             )
           ],
