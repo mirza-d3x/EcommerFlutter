@@ -1,3 +1,4 @@
+import 'package:ecommerceapi/UI/SignUpScreen/ScreenSignUp.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +193,11 @@ class ScreenLogin extends StatelessWidget {
                 children: [
                   Text('Dont have an account'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ScreenSignup()),
+                      );
+                    },
                     child: Text('Sign Up'),
                   )
                 ],

@@ -1,8 +1,10 @@
+import "package:ecommerceapi/Core/Sizes.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import '../../Core/Sizes.dart';
 import '../../Core/colors.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
+import '../LoginScreen/LoginScreen.dart';
+import '../ProfileUpload/profilePhoto.dart';
 
 class ScreenSignup extends StatelessWidget {
   const ScreenSignup({Key? key}) : super(key: key);
@@ -80,6 +82,48 @@ class ScreenSignup extends StatelessWidget {
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     children: [
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              elevation: 10,
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: const [
+                                          Icon(Icons.camera_alt_outlined),
+                                          Text('Photo from Camera')
+                                        ],
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: const [
+                                          Icon(Icons.photo),
+                                          Text('Photo from Gallery')
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const UploadProfile(),
+                      ),
                       TextField(
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.person),
@@ -89,7 +133,7 @@ class ScreenSignup extends StatelessWidget {
                             ),
                           ),
                           onSubmitted: (value) {}),
-                      cHeight20,
+                      kHeight20,
                       TextField(
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.person),
@@ -99,13 +143,13 @@ class ScreenSignup extends StatelessWidget {
                             ),
                           ),
                           onSubmitted: (value) {}),
-                      cHeight20,
+                      kHeight20,
                       TextField(
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.key),
                           suffixIcon: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.remove_red_eye_outlined),
+                            icon: const Icon(Icons.remove_red_eye_outlined),
                           ),
                           hintText: 'Create Password',
                           border: OutlineInputBorder(
@@ -114,13 +158,13 @@ class ScreenSignup extends StatelessWidget {
                         ),
                         onSubmitted: (value) {},
                       ),
-                      cHeight20,
+                      kHeight20,
                       TextField(
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.key),
                           suffixIcon: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.remove_red_eye_outlined),
+                            icon: const Icon(Icons.remove_red_eye_outlined),
                           ),
                           hintText: 'Confirm Password',
                           border: OutlineInputBorder(
@@ -129,7 +173,7 @@ class ScreenSignup extends StatelessWidget {
                         ),
                         onSubmitted: (value) {},
                       ),
-                      cHeight20,
+                      kHeight20,
                       SizedBox(
                         width: MediaQuery.of(context).size.width * .65,
                         height: MediaQuery.of(context).size.height * .06,
@@ -148,10 +192,16 @@ class ScreenSignup extends StatelessWidget {
               left: MediaQuery.of(context).size.width / 4,
               child: Row(
                 children: [
-                  Text('Already have an account'),
+                  const Text('Already have an account'),
                   TextButton(
-                    onPressed: () {},
-                    child: Text('Log in'),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ScreenLogin(),
+                        ),
+                      );
+                    },
+                    child: const Text('Log in'),
                   )
                 ],
               ),
