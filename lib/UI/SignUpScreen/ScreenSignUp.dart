@@ -90,7 +90,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
               alignment: Alignment.center,
               child: Container(
                 width: MediaQuery.of(context).size.width * .80,
-                height: MediaQuery.of(context).size.height * .60,
+                height: MediaQuery.of(context).size.height * .70,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -226,7 +226,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
                                 ),
                               ),
                               validator: (value) {
-                                validatePassword(value!);
+                               return validatePassword(value!);
                               },
                             );
                           },
@@ -257,7 +257,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
                                 ),
                               ),
                               validator: (value) {
-                                validatePassword(value!);
+                               return validatePassword(value!);
                               },
                             );
                           },
