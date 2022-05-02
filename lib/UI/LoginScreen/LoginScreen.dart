@@ -12,7 +12,7 @@ import 'validation.dart';
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
 
-  final formKey = GlobalKey<FormState>();
+  final formKeyLogin = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class ScreenLogin extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Form(
-                    key: formKey,
+                    key: formKeyLogin,
                     child: Column(
                       children: [
                         TextFormField(
@@ -143,7 +143,7 @@ class ScreenLogin extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * .06,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (formKey.currentState!.validate()) {
+                              if (formKeyLogin.currentState!.validate()) {
                                 print("Validated");
                               } else {
                                 print("Not Validated");

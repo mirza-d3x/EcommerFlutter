@@ -16,3 +16,11 @@ String? validateEmail(String value) {
     return "Not a Valid Email ";
   }
 }
+
+String? validateName(String value) {
+  if (value.isEmpty) {
+    return "* Name is Required";
+  } else if (value.length <= 3) {
+    return "Not a Valid Name ";
+  }
+}

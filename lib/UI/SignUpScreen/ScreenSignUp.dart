@@ -9,6 +9,7 @@ import 'package:ecommerceapi/Consatants/colors.dart';
 import 'package:ecommerceapi/Consatants/Sizes.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
 import '../LoginScreen/LoginScreen.dart';
+import '../LoginScreen/validation.dart';
 
 class ScreenSignup extends StatefulWidget {
   const ScreenSignup({Key? key}) : super(key: key);
@@ -30,6 +31,8 @@ class _ScreenSignupState extends State<ScreenSignup> {
       images = selectedImage;
     });
   }
+
+  final formKeySignup = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -102,157 +105,174 @@ class _ScreenSignupState extends State<ScreenSignup> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => Dialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    elevation: 10,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                pickImage(ImageSource.camera),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: const [
-                                                Icon(Icons.camera_alt_outlined),
-                                                Text('Photo from Camera')
-                                              ],
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                pickImage(ImageSource.gallery),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: const [
-                                                Icon(Icons.photo),
-                                                Text('Photo from Gallery'),
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                  child: Form(
+                    key: formKeySignup,
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      elevation: 10,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () =>
+                                                  pickImage(ImageSource.camera),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: const [
+                                                  Icon(Icons
+                                                      .camera_alt_outlined),
+                                                  Text('Photo from Camera')
+                                                ],
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () => pickImage(
+                                                  ImageSource.gallery),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: const [
+                                                  Icon(Icons.photo),
+                                                  Text('Photo from Gallery'),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                          },
+                          child: CircleAvatar(
+                            radius: MediaQuery.of(context).size.height * .06,
+                            backgroundColor: Colors.blue,
+                            child: images != null
+                                ? ClipOval(
+                                    child: Image.file(
+                                      images!,
+                                      fit: BoxFit.cover,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .15,
+                                      width: MediaQuery.of(context).size.width *
+                                          .25,
                                     ),
-                                  ));
-                        },
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.height * .06,
-                          backgroundColor: Colors.blue,
-                          child: images != null
-                              ? ClipOval(
-                                  child: Image.file(
-                                    images!,
-                                    fit: BoxFit.cover,
-                                    height: MediaQuery.of(context).size.height *
-                                        .15,
-                                    width:
-                                        MediaQuery.of(context).size.width * .25,
+                                  )
+                                : const Icon(
+                                    Icons.person_add_alt,
+                                    color: Colors.black,
+                                    size: 60,
                                   ),
-                                )
-                              : Icon(
-                                  Icons.person_add_alt,
-                                  color: Colors.black,
-                                  size: 60,
+                          ),
+                        ),
+                        TextFormField(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: 'Full Name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            validator: (value) {
+                              validateName(value!);
+                            }),
+                        kHeight20,
+                        TextFormField(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: 'Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            validator: (value) {
+                              validateEmail(value!);
+                            }),
+                        kHeight20,
+                        BlocBuilder<ObscureBloc, ObscureState>(
+                          builder: (context, state) {
+                            return TextFormField(
+                              obscureText: state.obscurePass,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.key),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    BlocProvider.of<ObscureBloc>(context)
+                                        .add(obScureTrueFalse());
+                                  },
+                                  icon: state.obscurePass
+                                      ? const Icon(
+                                          Icons.remove_red_eye_outlined)
+                                      : const Icon(
+                                          FontAwesomeIcons.eyeSlash,
+                                          size: 20,
+                                        ),
                                 ),
+                                hintText: 'Create Password',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              validator: (value) {
+                                validatePassword(value!);
+                              },
+                            );
+                          },
                         ),
-                      ),
-                      TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: 'Full Name',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onSubmitted: (value) {}),
-                      kHeight20,
-                      TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: 'Email',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onSubmitted: (value) {}),
-                      kHeight20,
-                      BlocBuilder<ObscureBloc, ObscureState>(
-                        builder: (context, state) {
-                          return TextField(
-                            obscureText: state.obscurePass,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.key),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<ObscureBloc>(context)
-                                      .add(obScureTrueFalse());
-                                },
-                                icon: state.obscurePass
-                                    ? const Icon(Icons.remove_red_eye_outlined)
-                                    : const Icon(
-                                        FontAwesomeIcons.eyeSlash,
-                                        size: 20,
-                                      ),
+                        kHeight20,
+                        BlocBuilder<ObscureBloc, ObscureState>(
+                          builder: (context, state) {
+                            return TextFormField(
+                              obscureText: state.obscurePass,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.key),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    BlocProvider.of<ObscureBloc>(context)
+                                        .add(obScureTrueFalse());
+                                  },
+                                  icon: state.obscurePass
+                                      ? const Icon(
+                                          Icons.remove_red_eye_outlined)
+                                      : const Icon(
+                                          FontAwesomeIcons.eyeSlash,
+                                          size: 20,
+                                        ),
+                                ),
+                                hintText: 'Confirm Password',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                              hintText: 'Create Password',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onSubmitted: (value) {},
-                          );
-                        },
-                      ),
-                      kHeight20,
-                      BlocBuilder<ObscureBloc, ObscureState>(
-                        builder: (context, state) {
-                          return TextField(
-                            obscureText: state.obscurePass,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.key),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<ObscureBloc>(context)
-                                      .add(obScureTrueFalse());
-                                },
-                                icon: state.obscurePass
-                                    ? const Icon(Icons.remove_red_eye_outlined)
-                                    : const Icon(
-                                        FontAwesomeIcons.eyeSlash,
-                                        size: 20,
-                                      ),
-                              ),
-                              hintText: 'Confirm Password',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onSubmitted: (value) {},
-                          );
-                        },
-                      ),
-                      kHeight20,
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .65,
-                        height: MediaQuery.of(context).size.height * .06,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Log In'),
+                              validator: (value) {
+                                validatePassword(value!);
+                              },
+                            );
+                          },
                         ),
-                      ),
-                    ],
+                        kHeight20,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * .65,
+                          height: MediaQuery.of(context).size.height * .06,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Log In'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
