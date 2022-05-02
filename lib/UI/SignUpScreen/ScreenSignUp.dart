@@ -267,7 +267,14 @@ class _ScreenSignupState extends State<ScreenSignup> {
                           width: MediaQuery.of(context).size.width * .65,
                           height: MediaQuery.of(context).size.height * .06,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (formKeySignup.currentState!.validate()) {
+                                print("Validated");
+                              } else {
+                                print("Not Validated");
+                              }
+                              return;
+                            },
                             child: const Text('Log In'),
                           ),
                         ),
