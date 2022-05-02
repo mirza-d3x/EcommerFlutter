@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:ecommerceapi/Consatants/colors.dart';
 import 'package:ecommerceapi/Consatants/Sizes.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
+import 'validation.dart';
 
 class ScreenLogin extends StatelessWidget {
-  const ScreenLogin({Key? key}) : super(key: key);
+  ScreenLogin({Key? key}) : super(key: key);
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,121 +85,136 @@ class ScreenLogin extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      TextField(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.person),
                             hintText: 'Email',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          onSubmitted: (value) {}),
-                      cHeight30,
-                      BlocBuilder<ObscureBloc, ObscureState>(
-                        builder: (context, state) {
-                          return TextField(
-                            obscureText: state.obscurePass,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.key),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<ObscureBloc>(context)
-                                      .add(obScureTrueFalse());
-                                },
-                                icon: state.obscurePass
-                                    ? Icon(Icons.remove_red_eye_outlined)
-                                    : Icon(
-                                        FontAwesomeIcons.eyeSlash,
-                                        size: 20,
-                                      ),
-                              ),
-                              hintText: 'Password',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onSubmitted: (value) {},
-                          );
+                          ),validator: (value){
+                            return validateEmail(value!);
                         },
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forgot password ?',
-                          style: TextStyle(color: cGrey),
                         ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .65,
-                        height: MediaQuery.of(context).size.height * .06,
-                        child: ElevatedButton(
+                        cHeight30,
+                        BlocBuilder<ObscureBloc, ObscureState>(
+                          builder: (context, state) {
+                            return TextFormField(
+                              obscureText: state.obscurePass,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.key),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    BlocProvider.of<ObscureBloc>(context)
+                                        .add(obScureTrueFalse());
+                                  },
+                                  icon: state.obscurePass
+                                      ? const Icon(
+                                          Icons.remove_red_eye_outlined)
+                                      : const Icon(
+                                          FontAwesomeIcons.eyeSlash,
+                                          size: 20,
+                                        ),
+                                ),
+                                hintText: 'Password',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              validator: (value) {
+                                return validatePassword(value!);
+                              },
+                            );
+                          },
+                        ),
+                        TextButton(
                           onPressed: () {},
-                          child: const Text('Log In'),
+                          child: Text(
+                            'Forgot password ?',
+                            style: TextStyle(color: cGrey),
+                          ),
                         ),
-                      ),
-                      cHeight30,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: cGrey,
-                              thickness: 1,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * .65,
+                          height: MediaQuery.of(context).size.height * .06,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                print("Validated");
+                              } else {
+                                print("Not Validated");
+                              }
+                              return;
+                            },
+                            child: const Text('Log In'),
+                          ),
+                        ),
+                        cHeight30,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: cGrey,
+                                thickness: 1,
+                              ),
+                            ),
+                            const Text('or'),
+                            Expanded(
+                              child: Divider(
+                                color: cGrey,
+                                thickness: 1,
+                              ),
+                            )
+                          ],
+                        ),
+                        cHeight30,
+                        Container(
+                          width: MediaQuery.of(context).size.width * .65,
+                          height: MediaQuery.of(context).size.height * .06,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                Icon(FontAwesomeIcons.google),
+                                Text('LOGIN WITH GOOGLE'),
+                              ],
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
                             ),
                           ),
-                          const Text('or'),
-                          Expanded(
-                            child: Divider(
-                              color: cGrey,
-                              thickness: 1,
+                        ),
+                        cHeight30,
+                        Container(
+                          width: MediaQuery.of(context).size.width * .65,
+                          height: MediaQuery.of(context).size.height * .06,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                Icon(Icons.facebook),
+                                Text('LOGIN WITH FACEBOOK'),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      cHeight30,
-                      Container(
-                        width: MediaQuery.of(context).size.width * .65,
-                        height: MediaQuery.of(context).size.height * .06,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              Icon(FontAwesomeIcons.google),
-                              Text('LOGIN WITH GOOGLE'),
-                            ],
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
                           ),
                         ),
-                      ),
-                      cHeight30,
-                      Container(
-                        width: MediaQuery.of(context).size.width * .65,
-                        height: MediaQuery.of(context).size.height * .06,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              Icon(Icons.facebook),
-                              Text('LOGIN WITH FACEBOOK'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -206,14 +224,15 @@ class ScreenLogin extends StatelessWidget {
               left: MediaQuery.of(context).size.width / 4,
               child: Row(
                 children: [
-                  Text('Dont have an account'),
+                  const Text('Dont have an account'),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ScreenSignup()),
+                        MaterialPageRoute(
+                            builder: (context) => const ScreenSignup()),
                       );
                     },
-                    child: Text('Sign Up'),
+                    child: const Text('Sign Up'),
                   )
                 ],
               ),
