@@ -1,9 +1,19 @@
+import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ObscureBloc(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,11 +26,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: const ScreenLogin(),
     );
   }
 }
-

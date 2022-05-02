@@ -1,9 +1,11 @@
+import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
 import 'package:ecommerceapi/UI/SignUpScreen/ScreenSignUp.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import '../../Core/Sizes.dart';
-import '../../Core/colors.dart';
+import 'package:ecommerceapi/Consatants/colors.dart';
+import 'package:ecommerceapi/Consatants/Sizes.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
 
 class ScreenLogin extends StatelessWidget {
@@ -92,19 +94,32 @@ class ScreenLogin extends StatelessWidget {
                           ),
                           onSubmitted: (value) {}),
                       cHeight30,
-                      TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.key),
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.remove_red_eye_outlined),
-                          ),
-                          hintText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onSubmitted: (value) {},
+                      BlocBuilder<ObscureBloc, ObscureState>(
+                        builder: (context, state) {
+                          return TextField(
+                            obscureText: state.obscurePass,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.key),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<ObscureBloc>(context)
+                                      .add(obScureTrueFalse());
+                                },
+                                icon: state.obscurePass
+                                    ? Icon(Icons.remove_red_eye_outlined)
+                                    : Icon(
+                                        FontAwesomeIcons.eyeSlash,
+                                        size: 20,
+                                      ),
+                              ),
+                              hintText: 'Password',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onSubmitted: (value) {},
+                          );
+                        },
                       ),
                       TextButton(
                         onPressed: () {},
