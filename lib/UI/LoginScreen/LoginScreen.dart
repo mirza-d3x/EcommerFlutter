@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:ecommerceapi/Consatants/colors.dart';
 import 'package:ecommerceapi/Consatants/Sizes.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
-import 'validation.dart';
+import '../Widgets/validation.dart';
 
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
 
-  final formKey = GlobalKey<FormState>();
+  final formKeyLogin = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +66,12 @@ class ScreenLogin extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.center,
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * .08,
+              left: MediaQuery.of(context).size.width * .10,
               child: Container(
                 width: MediaQuery.of(context).size.width * .80,
-                height: MediaQuery.of(context).size.height * .60,
+                height: MediaQuery.of(context).size.height * .70,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -86,7 +87,7 @@ class ScreenLogin extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Form(
-                    key: formKey,
+                    key: formKeyLogin,
                     child: Column(
                       children: [
                         TextFormField(
@@ -96,9 +97,10 @@ class ScreenLogin extends StatelessWidget {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                          ),validator: (value){
+                          ),
+                          validator: (value) {
                             return validateEmail(value!);
-                        },
+                          },
                         ),
                         cHeight30,
                         BlocBuilder<ObscureBloc, ObscureState>(
@@ -143,7 +145,7 @@ class ScreenLogin extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * .06,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (formKey.currentState!.validate()) {
+                              if (formKeyLogin.currentState!.validate()) {
                                 print("Validated");
                               } else {
                                 print("Not Validated");
@@ -213,30 +215,34 @@ class ScreenLogin extends StatelessWidget {
                             ),
                           ),
                         ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Dont have an account'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ScreenSignup()),
+                                );
+                              },
+                              child: const Text('Sign Up'),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height / 5,
-              left: MediaQuery.of(context).size.width / 4,
-              child: Row(
-                children: [
-                  const Text('Dont have an account'),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const ScreenSignup()),
-                      );
-                    },
-                    child: const Text('Sign Up'),
-                  )
-                ],
-              ),
-            )
+            // Positioned(
+            //   bottom: MediaQuery.of(context).size.height / 5,
+            //   left: MediaQuery.of(context).size.width / 4,
+            //   child:
+            // )
           ],
         ),
       ),

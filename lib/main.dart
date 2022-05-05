@@ -1,5 +1,5 @@
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
+import 'package:ecommerceapi/UI/HomeScreen/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +11,7 @@ void main() {
           create: (context) => ObscureBloc(),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  ScreenLogin(),
+      home:   ScreenHome(),
     );
   }
 }
