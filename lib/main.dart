@@ -1,5 +1,5 @@
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/UI/HomeScreen/homeScreen.dart';
+import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,9 +26,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce',
       theme: ThemeData(
+        appBarTheme:AppBarTheme(elevation: 10,
+        ) ,
         primarySwatch: Colors.blue,
       ),
-      home:   ScreenHome(),
+      home:  ScreenLogin(),
     );
   }
 }
