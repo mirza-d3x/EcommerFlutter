@@ -1,6 +1,4 @@
-import 'dart:js';
-
-import 'package:ecommerceapi/Api/SignUp/SignupUser.dart';
+import 'package:ecommerceapi/Api/SignUp/SignupUserApi.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
 import 'package:ecommerceapi/Bloc/signUp/sign_up_bloc.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';

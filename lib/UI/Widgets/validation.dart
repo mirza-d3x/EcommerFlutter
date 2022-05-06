@@ -19,6 +19,7 @@ String? validateEmail(String value) {
   return null;
 }
 
+
 String? validateName(String value) {
   if (value.isEmpty) {
     return "* Name is Required";
@@ -27,6 +28,8 @@ String? validateName(String value) {
   }
   return null;
 }
+
+
 String? validateCofirmPass(String value,String CoPass) {
   if (value.isEmpty) {
     return "* Password is Required";
@@ -34,8 +37,6 @@ String? validateCofirmPass(String value,String CoPass) {
     return "Password should be atleast 6 characters";
   } else if (value.length > 15) {
     return "Password should not be greater than 15 characters";
-  }else if(value != CoPass){
-    return "Password Not Match";
   }
 
 }

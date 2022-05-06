@@ -1,11 +1,12 @@
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:ecommerceapi/UI/colorList.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ScreenHome extends StatefulWidget {
-  ScreenHome({Key? key}) : super(key: key);
+  const ScreenHome({Key? key}) : super(key: key);
 
   @override
   State<ScreenHome> createState() => _ScreenHomeState();
@@ -21,13 +22,36 @@ class _ScreenHomeState extends State<ScreenHome> {
     _pageController = PageController(viewportFraction: 0.95);
   }
 
+  exit() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Do You Want Exit'),
+        actions: [
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () {
+              if (Platform.isAndroid) {
+                SystemNavigator.pop();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
+    return WillPopScope(
+      onWillPop: () {
+        return exit();
+      },
+      child: Scaffold(
+        drawer: const Drawer(),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
               floating: true,
               pinned: true,
               snap: false,
@@ -41,29 +65,29 @@ class _ScreenHomeState extends State<ScreenHome> {
               centerTitle: true,
               flexibleSpace: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [Color(0x7D7D65EC), Colors.blue],
                     begin: FractionalOffset(0.5, 0.0),
                     end: FractionalOffset(0.0, 0.5),
                   ),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: FlexibleSpaceBar(),
+                child: const FlexibleSpaceBar(),
               ),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(50),
+                preferredSize: const Size.fromHeight(50),
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * .05,
                   child: Center(
                     child: Container(
                       height: MediaQuery.of(context).size.height * .05,
                       decoration: BoxDecoration(
-                       color: Colors.white,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         decoration: InputDecoration(
                             hintText: 'Search for something',
                             prefixIcon: Icon(Icons.search),
@@ -72,57 +96,42 @@ class _ScreenHomeState extends State<ScreenHome> {
                     ),
                   ),
                 ),
-              )
-              // AppBar(
-              //   elevation: 5,
-              //   title: Container(
-              //     width: double.infinity,
-              //     height: 40,
-              //     color: Colors.white,
-              //     child: Center(
-              //       child: TextField(
-              //         decoration: InputDecoration(
-              //             hintText: 'Search for something',
-              //             prefixIcon: Icon(Icons.search),
-              //             suffixIcon: Icon(Icons.camera_alt)),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                LimitedBox(
-                  maxHeight: MediaQuery.of(context).size.height * .25,
-                  child: PageView.builder(
-                    pageSnapping: true,
-                    controller: _pageController,
-                    itemCount: color.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Container(
-                      width: MediaQuery.of(context).size.width * .97,
-                      height: MediaQuery.of(context).size.height * .4,
-                      color: color[index],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 400,
-                  child: Center(
-                    child: Text(
-                      'This is an awesome shopping platform',
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1000,
-                  color: Colors.pink,
-                ),
-              ],
             ),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  LimitedBox(
+                    maxHeight: MediaQuery.of(context).size.height * .25,
+                    child: PageView.builder(
+                      pageSnapping: true,
+                      controller: _pageController,
+                      itemCount: color.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Container(
+                        width: MediaQuery.of(context).size.width * .97,
+                        height: MediaQuery.of(context).size.height * .4,
+                        color: color[index],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 400,
+                    child: Center(
+                      child: Text(
+                        'This is an awesome shopping platform',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 1000,
+                    color: Colors.pink,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

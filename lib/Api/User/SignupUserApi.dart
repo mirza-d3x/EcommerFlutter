@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ecommerceapi/Api/SignUp/SignupUserModel.dart';
+import 'package:ecommerceapi/Api/User/SignupUserModel.dart';
 import 'package:http/http.dart';
 import '../api_client.dart';
 
@@ -12,6 +12,7 @@ class SignupUserApi {
       String uname, String umail, String upass) async {
     String signupPath = '/signup?email=$umail&password=$upass&name=$uname';
     Response response = await apiClient.invokeAPI(signupPath, 'POST', null);
+    print('SignupUserApi'+response.body);
     return SignupUserModel.fromJson(jsonDecode(response.body));
   }
 }

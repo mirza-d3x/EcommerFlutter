@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:ecommerceapi/Api/SignUp/SignupUser.dart';
-import 'package:ecommerceapi/Api/SignUp/SignupUserModel.dart';
+import 'package:ecommerceapi/Api/User/SignupUserApi.dart';
+import 'package:ecommerceapi/Api/User/SignupUserModel.dart';
 import 'package:meta/meta.dart';
 
 part 'sign_up_event.dart';
@@ -19,6 +19,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
             event.uname, event.uemail, event.upass);
         emit(SignUpLoaded());
       } catch (e) {
+        print('SignUpBloc===========$e');
         emit(SignUpError());
       }
       // TODO: implement event handler
