@@ -1,41 +1,25 @@
-import 'dart:io';
+// ignore_for_file: must_be_immutable
+
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
+import 'package:ecommerceapi/Bloc/signUp/sign_up_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:ecommerceapi/Consatants/colors.dart';
 import 'package:ecommerceapi/Consatants/Sizes.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
 import '../LoginScreen/LoginScreen.dart';
 import '../Widgets/validation.dart';
 
-class ScreenSignup extends StatefulWidget {
-  const ScreenSignup({Key? key}) : super(key: key);
+class ScreenSignup extends StatelessWidget {
+  ScreenSignup({Key? key}) : super(key: key);
 
-  @override
-  State<ScreenSignup> createState() => _ScreenSignupState();
-}
-
-class _ScreenSignupState extends State<ScreenSignup> {
-  File? images;
   final formKeySignup = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController Pass = TextEditingController();
+  TextEditingController cPass = TextEditingController();
   TextEditingController nameController = TextEditingController();
-
-  Future pickImage(ImageSource source) async {
-    var image = await ImagePicker().pickImage(source: source);
-    if (image == null) return;
-
-    final selectedImage = File(image.path);
-
-    setState(() {
-      images = selectedImage;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +45,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
               child: ClipPath(
                 clipper: Customshape(),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * .70,
+                  height: MediaQuery.of(context).size.height * .60,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                 ),
@@ -93,7 +77,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
               alignment: Alignment.center,
               child: Container(
                 width: MediaQuery.of(context).size.width * .80,
-                height: MediaQuery.of(context).size.height * .72,
+                height: MediaQuery.of(context).size.height * .60,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -112,74 +96,6 @@ class _ScreenSignupState extends State<ScreenSignup> {
                     key: formKeySignup,
                     child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => Dialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      elevation: 10,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(20),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () =>
-                                                  pickImage(ImageSource.camera),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: const [
-                                                  Icon(Icons
-                                                      .camera_alt_outlined),
-                                                  Text('Photo from Camera')
-                                                ],
-                                              ),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () => pickImage(
-                                                  ImageSource.gallery),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: const [
-                                                  Icon(Icons.photo),
-                                                  Text('Photo from Gallery'),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-                          },
-                          child: CircleAvatar(
-                            radius: MediaQuery.of(context).size.height * .06,
-                            backgroundColor: Colors.blue,
-                            child: images != null
-                                ? ClipOval(
-                                    child: Image.file(
-                                      images!,
-                                      fit: BoxFit.cover,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .15,
-                                      width: MediaQuery.of(context).size.width *
-                                          .25,
-                                    ),
-                                  )
-                                : Icon(
-                                    Icons.person_add_alt,
-                                    color: Colors.black,
-                                    size: 60,
-                                  ),
-                          ),
-                        ),
                         TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
@@ -211,7 +127,6 @@ class _ScreenSignupState extends State<ScreenSignup> {
                         BlocBuilder<ObscureBloc, ObscureState>(
                           builder: (context, state) {
                             return TextFormField(
-
                               obscureText: state.obscurePass,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.key),
@@ -266,7 +181,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
                                 ),
                               ),
                               validator: (value) {
-                                return validateCofirmPass(value!,Pass.text);
+                                return validateCofirmPass(value!, cPass.text);
                               },
                             );
                           },
@@ -279,6 +194,12 @@ class _ScreenSignupState extends State<ScreenSignup> {
                             onPressed: () {
                               if (formKeySignup.currentState!.validate()) {
                                 print("Validated");
+                                BlocProvider.of<SignUpBloc>(context).add(
+                                  SignUpuserEvent(
+                                      nameController.text,
+                                      emailController.text,
+                                      passwordController.text),
+                                );
                               } else {
                                 print("Not Validated");
                               }
@@ -287,6 +208,23 @@ class _ScreenSignupState extends State<ScreenSignup> {
                             child: const Text('Log In'),
                           ),
                         ),
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                            builder: (context, state){
+                          // if (state is SignUpLoading) {
+                          //   return
+                          // }
+                          return Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/Images/connectionLost.png'),
+                                  fit: BoxFit.cover),
+                            ),
+                            child: Text('SocketException',
+                                style: TextStyle(
+                                    color: Colors.yellow, fontSize: 30)),
+                          );
+                        }),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

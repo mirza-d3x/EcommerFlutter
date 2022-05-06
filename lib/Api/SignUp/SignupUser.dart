@@ -4,7 +4,7 @@ import 'package:ecommerceapi/Api/SignUp/SignupUserModel.dart';
 import 'package:http/http.dart';
 import '../api_client.dart';
 
-class SignupUser {
+class SignupUserApi {
   ApiClient apiClient = ApiClient();
 
 // ?email=person1%40gmail.com&password=person1&name=nameperson

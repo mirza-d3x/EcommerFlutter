@@ -37,8 +37,10 @@ class ScreenLogin extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: ClipPath(
                 clipper: Customshape(),
+
+                //white container its displaying login screen backgraound
                 child: Container(
-                  height: MediaQuery.of(context).size.height * .70,
+                  height: MediaQuery.of(context).size.height * .60,
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white,
                 ),
@@ -71,7 +73,7 @@ class ScreenLogin extends StatelessWidget {
               left: MediaQuery.of(context).size.width * .10,
               child: Container(
                 width: MediaQuery.of(context).size.width * .80,
-                height: MediaQuery.of(context).size.height * .70,
+                height: MediaQuery.of(context).size.height * .65,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -215,7 +217,6 @@ class ScreenLogin extends StatelessWidget {
                             ),
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -224,8 +225,7 @@ class ScreenLogin extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ScreenSignup()),
+                                      builder: (context) => ScreenSignup()),
                                 );
                               },
                               child: const Text('Sign Up'),
@@ -238,11 +238,6 @@ class ScreenLogin extends StatelessWidget {
                 ),
               ),
             ),
-            // Positioned(
-            //   bottom: MediaQuery.of(context).size.height / 5,
-            //   left: MediaQuery.of(context).size.width / 4,
-            //   child:
-            // )
           ],
         ),
       ),
