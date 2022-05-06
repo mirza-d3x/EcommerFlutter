@@ -13,6 +13,9 @@ class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
 
   final formKeyLogin = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +72,11 @@ class ScreenLogin extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).size.height * .08,
+              bottom: MediaQuery.of(context).size.height * .05,
               left: MediaQuery.of(context).size.width * .10,
               child: Container(
                 width: MediaQuery.of(context).size.width * .80,
-                height: MediaQuery.of(context).size.height * .65,
+                height: MediaQuery.of(context).size.height * .75,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -93,6 +96,21 @@ class ScreenLogin extends StatelessWidget {
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.person),
+                            hintText: 'User Name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            return validateName(value!);
+                          },
+                        ),
+                        cHeight30,
+                        TextFormField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.person),
                             hintText: 'Email',
@@ -108,6 +126,7 @@ class ScreenLogin extends StatelessWidget {
                         BlocBuilder<ObscureBloc, ObscureState>(
                           builder: (context, state) {
                             return TextFormField(
+                              controller: passwordController,
                               obscureText: state.obscurePass,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.key),
@@ -198,7 +217,7 @@ class ScreenLogin extends StatelessWidget {
                             ),
                           ),
                         ),
-                        cHeight30,
+                        cHeight10,
                         Container(
                           width: MediaQuery.of(context).size.width * .65,
                           height: MediaQuery.of(context).size.height * .06,

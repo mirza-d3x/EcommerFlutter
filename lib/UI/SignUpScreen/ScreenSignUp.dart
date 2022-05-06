@@ -19,8 +19,8 @@ class ScreenSignup extends StatelessWidget {
   final formKeySignup = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController cPass = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController cPass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

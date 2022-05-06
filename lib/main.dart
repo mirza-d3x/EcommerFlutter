@@ -1,12 +1,12 @@
-import 'package:ecommerceapi/Api/SignUp/SignupUserApi.dart';
+import 'package:ecommerceapi/Api/User/UserApi.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/Bloc/signUp/sign_up_bloc.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Bloc/signUp/sign_up_bloc.dart';
 
 void main() {
-  SignupUserApi signupUserApi = SignupUserApi();
+  UserApi userApi = UserApi();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -14,11 +14,11 @@ void main() {
           create: (context) => ObscureBloc(),
         ),
         BlocProvider(
-          create: (context) => SignUpBloc(signupUserApi),
+          create: (context) => SignUpBloc(userApi),
         ),
       ],
       child: const MyApp(),
-    ),
+    )
   );
 }
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           elevation: 10,
         ),
         primarySwatch: Colors.blue,
