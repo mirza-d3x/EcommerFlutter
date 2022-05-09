@@ -3,6 +3,7 @@ import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Bloc/Login/login_bloc.dart';
 import 'Bloc/signUp/sign_up_bloc.dart';
 
 void main() {
@@ -16,6 +17,9 @@ void main() {
         BlocProvider(
           create: (context) => SignUpBloc(userApi),
         ),
+        BlocProvider(
+          create: (context)=> LoginBloc(userApi),
+        )
       ],
       child: const MyApp(),
     )

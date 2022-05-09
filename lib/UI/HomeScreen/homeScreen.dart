@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:ecommerceapi/UI/colorList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,6 +63,18 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => ScreenLogin(),
+                        ),
+                        ModalRoute.withName('/'));
+                  },
+                ),
+              ],
               centerTitle: true,
               flexibleSpace: Container(
                 decoration: BoxDecoration(

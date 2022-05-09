@@ -12,16 +12,16 @@ class UserApi {
       String uname, String umail, String upass) async {
     String signupPath = '/signup?email=$umail&password=$upass&name=$uname';
     Response response = await apiClient.invokeAPI(signupPath, 'POST', null);
-    print('SignupUserApi'+response.body);
+    print('SignupUserApi' + response.body);
     return SignupUserModel.fromJson(jsonDecode(response.body));
   }
 
-
-  Future<String> loginUser() async{
+  Future<String> loginUser(String uname, String uemail, String upass) async {
     String loginPath = '/login';
-    String body = '{"email": "user@example.com","password": "string","name": "string","user_img": "string"}';
+    String body = '{"email": "$uemail","password": "$upass","name": "$uname'
+        '"}';
     Response response = await apiClient.invokeAPI(loginPath, 'POST', body);
+    print(response.body);
     return response.body;
-
   }
 }

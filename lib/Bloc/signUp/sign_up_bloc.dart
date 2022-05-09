@@ -22,7 +22,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         print('SignUpBloc===========$e');
         emit(SignUpError());
       }
-      // TODO: implement event handler
+
     });
   }
 }
