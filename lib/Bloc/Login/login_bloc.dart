@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (LoginRes == "\"Login successful!\"") {
             print("=================$LoginRes");
             emit(LoginLoaded());
-          } else if(LoginRes == "\"Unauthorized\"") {
+          } else{
             print(LoginFail);
             emit(LoginIncorrect());
           }

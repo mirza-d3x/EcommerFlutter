@@ -1,6 +1,6 @@
 import 'package:ecommerceapi/Api/User/UserApi.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
+import 'package:ecommerceapi/UI/SplashScreeen/ScreenSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Bloc/Login/login_bloc.dart';
@@ -8,22 +8,20 @@ import 'Bloc/signUp/sign_up_bloc.dart';
 
 void main() {
   UserApi userApi = UserApi();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ObscureBloc(),
-        ),
-        BlocProvider(
-          create: (context) => SignUpBloc(userApi),
-        ),
-        BlocProvider(
-          create: (context)=> LoginBloc(userApi),
-        )
-      ],
-      child: const MyApp(),
-    )
-  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => ObscureBloc(),
+      ),
+      BlocProvider(
+        create: (context) => SignUpBloc(userApi),
+      ),
+      BlocProvider(
+        create: (context) => LoginBloc(userApi),
+      )
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: ScreenLogin(),
+      home: ScreenSplash(),
     );
   }
 }

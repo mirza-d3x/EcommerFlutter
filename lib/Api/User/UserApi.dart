@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ecommerceapi/Api/User/SignupUserModel.dart';
 import 'package:http/http.dart';
 import '../api_client.dart';
@@ -22,6 +21,7 @@ class UserApi {
         '"}';
     Response response = await apiClient.invokeAPI(loginPath, 'POST', body);
     print(response.body);
+    print(response.statusCode);
     return response.body;
   }
 }

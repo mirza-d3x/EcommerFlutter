@@ -141,6 +141,7 @@ class ScreenLogin extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Form(
+                      onChanged: (){formKeyLogin.currentState!.validate();},
                       key: formKeyLogin,
                       child: Column(
                         children: [
