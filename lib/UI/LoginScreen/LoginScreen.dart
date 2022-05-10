@@ -11,8 +11,6 @@ import '../../Bloc/Login/login_bloc.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
 import '../Widgets/validation.dart';
 
-
-
 class ScreenLogin extends StatelessWidget {
   ScreenLogin({Key? key}) : super(key: key);
 
@@ -38,7 +36,7 @@ class ScreenLogin extends StatelessWidget {
               },
             );
           }
-          if(state is LoginIncorrect){
+          if (state is LoginIncorrect) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -219,7 +217,11 @@ class ScreenLogin extends StatelessWidget {
                               onPressed: () {
                                 if (formKeyLogin.currentState!.validate()) {
                                   print("Validated");
-                                  BlocProvider.of<LoginBloc>(context).add(UserLoginEvent(nameController.text, emailController.text, passwordController.text));
+                                  BlocProvider.of<LoginBloc>(context).add(
+                                      UserLoginEvent(
+                                          nameController.text,
+                                          emailController.text,
+                                          passwordController.text));
                                 } else {
                                   print("Not Validated");
                                 }

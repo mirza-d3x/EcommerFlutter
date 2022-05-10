@@ -24,22 +24,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   }
 
   exit() {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Do You Want Exit'),
-        actions: [
-          TextButton(
-            child: const Text('Yes'),
-            onPressed: () {
-              if (Platform.isAndroid) {
-                SystemNavigator.pop();
-              }
-            },
-          ),
-        ],
-      ),
-    );
+    return SystemNavigator.pop();
   }
 
   @override

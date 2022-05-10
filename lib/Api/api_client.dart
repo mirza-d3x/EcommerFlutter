@@ -65,7 +65,7 @@ class ApiClient {
     print('status of $path =>' + (response.statusCode).toString());
     print(response.body);
 
-    if (response.statusCode >= 400) {
+    if (response.statusCode > 401) {
       print('worked');
       log(path +
           ' : ' +
@@ -74,17 +74,17 @@ class ApiClient {
           response.body);
 
       throw ApiException(
-          message: _decodeBodyBytes(response), statusCode: response.statusCode);
+          message: response.body, statusCode: response.statusCode);
     }
     return response;
   }
 
-  String _decodeBodyBytes(Response response) {
-    var contentType = response.headers['content-type'];
-    if (contentType != null && contentType.contains("application/json")) {
-      return jsonDecode(response.body)['message'];
-    } else {
-      return response.body;
-    }
-  }
+  // String _decodeBodyBytes(Response response) {
+  //   var contentType = response.headers['content-type'];
+  //   if (contentType != null && contentType.contains("application/json")) {
+  //     return jsonDecode(response.body)['message'];
+  //   } else {
+  //     return response.body;
+  //   }
+  // }
 }
