@@ -7,7 +7,7 @@ part 'get_products_event.dart';
 part 'get_products_state.dart';
 
 class GetProductsBloc extends Bloc<GetProductsEvent, GetProductsState> {
-  late ProductModel productModel;
+  late List<ProductModel> productModel;
   ProductApi productApi;
 
   GetProductsBloc(this.productApi) : super(GetProductsInitial()) {

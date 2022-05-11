@@ -18,7 +18,7 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   late PageController _pageController;
-  late ProductModel productModel;
+  late List<ProductModel> productModel;
 
   @override
   void initState() {
@@ -39,9 +39,10 @@ class _ScreenHomeState extends State<ScreenHome> {
         return exit();
       },
       child: Scaffold(
-          //Sliver AppBar
-          drawer: const Drawer(),
-          body: CustomScrollView(slivers: [
+        //Sliver AppBar
+        drawer: const Drawer(),
+        body: CustomScrollView(
+          slivers: [
             SliverAppBar(
               floating: true,
               pinned: true,
@@ -153,8 +154,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                         return Container(
                           child: Center(
                             child: Text(
-                              'Network Error',
-                              style: GoogleFonts.caveat(
+                              'Error',
+                              style: TextStyle(
                                 fontSize: 100,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -189,7 +190,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ],
               ),
             ),
-          ])),
+          ],
+        ),
+      ),
     );
   }
 }

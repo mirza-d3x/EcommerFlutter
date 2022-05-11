@@ -56,5 +56,9 @@ ProductModel copyWith({  int? id,
     map['description'] = _description;
     return map;
   }
-
+  static List<ProductModel> listFromJson(List<dynamic> json){
+    return json == null
+        ? []
+        : json.map((value) => ProductModel.fromJson(value)).toList();
+  }
 }
