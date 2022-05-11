@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:ecommerceapi/Api/Product/productModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
@@ -41,10 +39,9 @@ class _ScreenHomeState extends State<ScreenHome> {
         return exit();
       },
       child: Scaffold(
-        //Sliver AppBar
-        drawer: const Drawer(),
-        body: CustomScrollView(
-          slivers: [
+          //Sliver AppBar
+          drawer: const Drawer(),
+          body: CustomScrollView(slivers: [
             SliverAppBar(
               floating: true,
               pinned: true,
@@ -107,87 +104,92 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
             ),
-            BlocBuilder<GetProductsBloc, GetProductsState>(
-              builder: (context, state) {
-                if (state is ProductsLoading) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (state is ProductsLoaded) {
-                  productModel =
-                      BlocProvider.of<GetProductsBloc>(context).productModel;
-                  return SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        LimitedBox(
-                          maxHeight: MediaQuery.of(context).size.height * .25,
-                          child: PageView.builder(
-                            pageSnapping: true,
-                            controller: _pageController,
-                            itemCount: color.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => Container(
-                              width: MediaQuery.of(context).size.width * .97,
-                              height: MediaQuery.of(context).size.height * .4,
-                              color: color[index],
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  BlocBuilder<GetProductsBloc, GetProductsState>(
+                    builder: (context, state) {
+                      if (state is ProductsLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (state is ProductsLoaded) {
+                        productModel = BlocProvider.of<GetProductsBloc>(context)
+                            .productModel;
+                        return Column(
+                          children: [
+                            LimitedBox(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * .25,
+                              child: PageView.builder(
+                                pageSnapping: true,
+                                controller: _pageController,
+                                itemCount: color.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) => Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .97,
+                                  height:
+                                      MediaQuery.of(context).size.height * .4,
+                                  color: color[index],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 400,
+                            const SizedBox(
+                              height: 400,
+                              child: Center(
+                                child: Text(
+                                  'This is an awesome shopping platform',
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 1000,
+                              color: Colors.pink,
+                            ),
+                          ],
+                        );
+                      }
+                      if (state is ProductsError) {
+                        return Container(
                           child: Center(
                             child: Text(
-                              'This is an awesome shopping platform',
+                              'Network Error',
+                              style: GoogleFonts.caveat(
+                                fontSize: 100,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 1000,
-                          color: Colors.pink,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                if (state is ProductsError) {
-                  return Container(
-                    child: Center(
-                      child: Text(
-                        'Network Error',
-                        style: GoogleFonts.caveat(
-                          fontSize: 100,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  );
-                }
+                        );
+                      }
 
-                return Container(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Shopsy',
-                          style: GoogleFonts.caveat(
-                            fontSize: 100,
-                            fontWeight: FontWeight.w500,
+                      return Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Shopsy',
+                                style: GoogleFonts.caveat(
+                                  fontSize: 100,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                Icons.shopping_bag_rounded,
+                                size: 50,
+                              ),
+                              Text('Network Error'),
+                            ],
                           ),
                         ),
-                        Icon(
-                          Icons.shopping_bag_rounded,
-                          size: 50,
-                        ),
-                        Text('Network Error'),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
+          ])),
     );
   }
 }
