@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../HomeScreen/homeScreen.dart';
 import '../LoginScreen/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({Key? key}) : super(key: key);
@@ -43,11 +44,27 @@ class _ScreenSplashState extends State<ScreenSplash> {
   }
 
   Future waitingSplash() async {
-    await Future.delayed(Duration(seconds: 1));
-    await Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => ScreenLogin(),
-        ),
-        ModalRoute.withName('/'));
+    await Future.delayed(Duration(seconds: 5));
+    getSavedBool();
+  }
+
+  Future<void> getSavedBool() async {
+    final sharedprefs = await SharedPreferences.getInstance();
+    final savedValue = sharedprefs.getBool('LoginTF');
+
+    if (savedValue == null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => ScreenLogin(),
+          ),
+          ModalRoute.withName('/'));
+    }else{
+      print('====================$savedValue');
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => ScreenHome(),
+          ),
+          ModalRoute.withName('/'));
+    }
   }
 }

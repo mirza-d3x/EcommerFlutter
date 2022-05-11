@@ -1,10 +1,15 @@
-import 'dart:io';
+import 'dart:ui';
 
+import 'package:ecommerceapi/Api/Product/productModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:ecommerceapi/UI/colorList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../Bloc/Products/get_products_bloc.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
@@ -15,12 +20,14 @@ class ScreenHome extends StatefulWidget {
 
 class _ScreenHomeState extends State<ScreenHome> {
   late PageController _pageController;
+  late ProductModel productModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _pageController = PageController(viewportFraction: 0.95);
+    BlocProvider.of<GetProductsBloc>(context).add(GetProductsEventNew());
   }
 
   exit() {
@@ -34,6 +41,7 @@ class _ScreenHomeState extends State<ScreenHome> {
         return exit();
       },
       child: Scaffold(
+        //Sliver AppBar
         drawer: const Drawer(),
         body: CustomScrollView(
           slivers: [
@@ -51,7 +59,10 @@ class _ScreenHomeState extends State<ScreenHome> {
               actions: [
                 IconButton(
                   icon: Icon(Icons.logout),
-                  onPressed: () {
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.clear();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (context) => ScreenLogin(),
@@ -96,37 +107,83 @@ class _ScreenHomeState extends State<ScreenHome> {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  LimitedBox(
-                    maxHeight: MediaQuery.of(context).size.height * .25,
-                    child: PageView.builder(
-                      pageSnapping: true,
-                      controller: _pageController,
-                      itemCount: color.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => Container(
-                        width: MediaQuery.of(context).size.width * .97,
-                        height: MediaQuery.of(context).size.height * .4,
-                        color: color[index],
-                      ),
+            BlocBuilder<GetProductsBloc, GetProductsState>(
+              builder: (context, state) {
+                if (state is ProductsLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is ProductsLoaded) {
+                  productModel =
+                      BlocProvider.of<GetProductsBloc>(context).productModel;
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        LimitedBox(
+                          maxHeight: MediaQuery.of(context).size.height * .25,
+                          child: PageView.builder(
+                            pageSnapping: true,
+                            controller: _pageController,
+                            itemCount: color.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => Container(
+                              width: MediaQuery.of(context).size.width * .97,
+                              height: MediaQuery.of(context).size.height * .4,
+                              color: color[index],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 400,
+                          child: Center(
+                            child: Text(
+                              'This is an awesome shopping platform',
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 1000,
+                          color: Colors.pink,
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 400,
+                  );
+                }
+                if (state is ProductsError) {
+                  return Container(
                     child: Center(
                       child: Text(
-                        'This is an awesome shopping platform',
+                        'Network Error',
+                        style: GoogleFonts.caveat(
+                          fontSize: 100,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
+                  );
+                }
+
+                return Container(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Shopsy',
+                          style: GoogleFonts.caveat(
+                            fontSize: 100,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Icon(
+                          Icons.shopping_bag_rounded,
+                          size: 50,
+                        ),
+                        Text('Network Error'),
+                      ],
+                    ),
                   ),
-                  Container(
-                    height: 1000,
-                    color: Colors.pink,
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),
