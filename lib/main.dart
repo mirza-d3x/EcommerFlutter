@@ -7,6 +7,7 @@ import 'Api/Product/productApi.dart';
 import 'Bloc/Login/login_bloc.dart';
 import 'Bloc/Products/get_products_bloc.dart';
 import 'Bloc/signUp/sign_up_bloc.dart';
+import 'UI/ProductScreen/ProductScreen.dart';
 
 void main() {
   UserApi userApi = UserApi();
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: ScreenSplash(),
+      home: ScreenProduct(),
     );
   }
 }
