@@ -1,4 +1,5 @@
 import 'package:ecommerceapi/Api/Product/productModel.dart';
+import 'package:ecommerceapi/UI/keyWordList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
 import 'package:ecommerceapi/UI/colorList.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../Bloc/Products/get_products_bloc.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -21,10 +21,10 @@ class _ScreenHomeState extends State<ScreenHome> {
   late List<ProductModel> productModel;
 
   @override
-  void initState() {
+  initState() {
     // TODO: implement initState
     super.initState();
-    _pageController = PageController(viewportFraction: 0.95);
+    _pageController = PageController(viewportFraction: 0.95, keepPage: false);
     BlocProvider.of<GetProductsBloc>(context).add(GetProductsEventNew());
   }
 
@@ -34,6 +34,14 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   @override
   Widget build(BuildContext context) {
+    final mHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final mWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return WillPopScope(
       onWillPop: () {
         return exit();
@@ -56,10 +64,10 @@ class _ScreenHomeState extends State<ScreenHome> {
               ),
               actions: [
                 IconButton(
-                  icon: Icon(Icons.logout),
+                  icon: const Icon(Icons.logout),
                   onPressed: () async {
                     SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
+                    await SharedPreferences.getInstance();
                     prefs.clear();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
@@ -86,10 +94,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * .05,
+                  height: mHeight * .05,
                   child: Center(
                     child: Container(
-                      height: MediaQuery.of(context).size.height * .05,
+                      height: mHeight * .05,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5),
@@ -111,78 +119,181 @@ class _ScreenHomeState extends State<ScreenHome> {
                   BlocBuilder<GetProductsBloc, GetProductsState>(
                     builder: (context, state) {
                       if (state is ProductsLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (state is ProductsLoaded) {
-                        productModel = BlocProvider.of<GetProductsBloc>(context)
+                        productModel = BlocProvider
+                            .of<GetProductsBloc>(context)
                             .productModel;
                         return Column(
                           children: [
+                            SizedBox(
+                              height: mHeight * .05,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: keyWord.length,
+                                itemBuilder: (context, index) =>
+                                    Container(
+                                      margin: EdgeInsets.all(5),
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        color: color[index],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.elliptical(30, 30)),
+                                      ),
+                                      child: Text(
+                                        keyWord[index],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ),
+                              ),
+                            ),
                             LimitedBox(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * .25,
+                              maxHeight: mHeight * .25,
                               child: PageView.builder(
                                 pageSnapping: true,
                                 controller: _pageController,
-                                itemCount: color.length,
+                                itemCount: productModel.length,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .97,
-                                  height:
-                                      MediaQuery.of(context).size.height * .4,
-                                  color: color[index],
-                                ),
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                      onTap: (){
+                                        print('Gesture Detected');
+                                      },
+                                      child: Container(
+                                        width: mWidth * .97,
+                                        height: mHeight * .4,
+                                        color: color[index],
+                                        child: Image.network(
+                                          "https://picsum.photos/300/200",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 400,
-                              child: Center(
-                                child: Text(
-                                  'This is an awesome shopping platform',
-                                ),
+                            SizedBox(
+                              height: mHeight * .4,
+                              child: GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: productModel.length,
+                                gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 5,
+                                    crossAxisSpacing: 5,
+                                    childAspectRatio: .65),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                    Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            print('Gesture Detected');
+                                          },
+                                          child: Container(
+                                          height: mHeight * .4,
+                                          width: mWidth * .4,
+                                          decoration: BoxDecoration(
+                                            color: color[index],
+                                            borderRadius: BorderRadius.circular(
+                                                5),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                blurRadius: 8,
+                                                spreadRadius: 4,
+                                                offset: Offset(-5, 10),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Image.network(
+                                            "https://picsum.photos/300/200",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ), )
+                                    ),
                               ),
                             ),
-                            Container(
-                              height: 1000,
-                              color: Colors.pink,
+                            SizedBox(
+                              height: mHeight * 1,
+                              child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: productModel.length,
+                                gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 5,
+                                    crossAxisSpacing: 5,
+                                    childAspectRatio: .65),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          print('Gesture Detected');
+                                        },
+                                        child: Container(
+                                          height: mHeight * .4,
+                                          width: mWidth * .4,
+                                          decoration: BoxDecoration(
+                                            color: color[index],
+                                            borderRadius: BorderRadius.circular(
+                                                5),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                blurRadius: 8,
+                                                spreadRadius: 4,
+                                                offset: Offset(-5, 10),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Image.network(
+                                            "https://picsum.photos/200/300",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              ),
                             ),
+
                           ],
                         );
                       }
                       if (state is ProductsError) {
-                        return Container(
-                          child: Center(
-                            child: Text(
-                              'Error',
-                              style: TextStyle(
-                                fontSize: 100,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        return const Center(
+                          child: Text(
+                            'Error',
+                            style: TextStyle(
+                              fontSize: 100,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         );
                       }
 
-                      return Container(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Shopsy',
-                                style: GoogleFonts.caveat(
-                                  fontSize: 100,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Shopsy',
+                              style: GoogleFonts.caveat(
+                                fontSize: 100,
+                                fontWeight: FontWeight.w500,
                               ),
-                              Icon(
-                                Icons.shopping_bag_rounded,
-                                size: 50,
-                              ),
-                              Text('Network Error'),
-                            ],
-                          ),
+                            ),
+                            const Icon(
+                              Icons.shopping_bag_rounded,
+                              size: 50,
+                            ),
+                            const Text('Network Error'),
+                          ],
                         ),
                       );
                     },

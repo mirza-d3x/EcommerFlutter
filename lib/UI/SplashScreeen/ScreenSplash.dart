@@ -44,7 +44,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   }
 
   Future waitingSplash() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 1));
     getSavedBool();
   }
 

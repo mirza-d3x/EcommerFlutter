@@ -11,6 +11,6 @@ class ProductApi {
   Future<List<ProductModel>> getProduct() async {
     String productPath = '/products';
     Response response = await apiClient.invokeAPI(productPath, 'GET', null);
-    return ProductModel.listFromJson(jsonDecode([response.body].toString()));
+    return ProductModel.listFromJson(jsonDecode(response.body.toString()));
   }
 }

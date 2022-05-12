@@ -1,0 +1,16 @@
+final keyWord = <String>[
+  'Mobile',
+  'Laptop',
+  'Tv',
+  'Watch',
+  'Mobile',
+  'Laptop',
+  'Tv',
+  'Watch',
+  'Mobile',
+  'Laptop',
+  'Tv',
+  'Watch',
+  'Shoes',
+  'Caps',
+];
