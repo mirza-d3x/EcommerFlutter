@@ -34,14 +34,8 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   @override
   Widget build(BuildContext context) {
-    final mHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    final mWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final mHeight = MediaQuery.of(context).size.height;
+    final mWidth = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () {
         return exit();
@@ -67,7 +61,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   icon: const Icon(Icons.logout),
                   onPressed: () async {
                     SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
+                        await SharedPreferences.getInstance();
                     prefs.clear();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
@@ -119,11 +113,12 @@ class _ScreenHomeState extends State<ScreenHome> {
                   BlocBuilder<GetProductsBloc, GetProductsState>(
                     builder: (context, state) {
                       if (state is ProductsLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                       if (state is ProductsLoaded) {
-                        productModel = BlocProvider
-                            .of<GetProductsBloc>(context)
+                        productModel = BlocProvider.of<GetProductsBloc>(context)
                             .productModel;
                         return Column(
                           children: [
@@ -132,22 +127,22 @@ class _ScreenHomeState extends State<ScreenHome> {
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: keyWord.length,
-                                itemBuilder: (context, index) =>
-                                    Container(
-                                      margin: EdgeInsets.all(5),
-                                      padding: EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                        color: color[index],
-                                        borderRadius: BorderRadius.all(
-                                            Radius.elliptical(30, 30)),
-                                      ),
-                                      child: Text(
-                                        keyWord[index],
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w300),
-                                      ),
+                                itemBuilder: (context, index) => Container(
+                                  margin: EdgeInsets.all(5),
+                                  padding: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: color[index],
+                                    borderRadius: BorderRadius.all(
+                                      Radius.elliptical(30, 30),
                                     ),
+                                  ),
+                                  child: Text(
+                                    keyWord[index],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                ),
                               ),
                             ),
                             LimitedBox(
@@ -159,19 +154,19 @@ class _ScreenHomeState extends State<ScreenHome> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) =>
                                     GestureDetector(
-                                      onTap: (){
-                                        print('Gesture Detected');
-                                      },
-                                      child: Container(
-                                        width: mWidth * .97,
-                                        height: mHeight * .4,
-                                        color: color[index],
-                                        child: Image.network(
-                                          "https://picsum.photos/300/200",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                                  onTap: () {
+                                    print('Gesture Detected');
+                                  },
+                                  child: Container(
+                                    width: mWidth * .97,
+                                    height: mHeight * .4,
+                                    color: color[index],
+                                    child: Image.network(
+                                      "https://picsum.photos/300/200",
+                                      fit: BoxFit.cover,
                                     ),
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -180,41 +175,41 @@ class _ScreenHomeState extends State<ScreenHome> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: productModel.length,
                                 gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 5,
-                                    childAspectRatio: .65),
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 5,
+                                        crossAxisSpacing: 5,
+                                        childAspectRatio: .65),
                                 itemBuilder:
                                     (BuildContext context, int index) =>
-                                    Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            print('Gesture Detected');
-                                          },
-                                          child: Container(
-                                          height: mHeight * .4,
-                                          width: mWidth * .4,
-                                          decoration: BoxDecoration(
-                                            color: color[index],
-                                            borderRadius: BorderRadius.circular(
-                                                5),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.grey,
-                                                blurRadius: 8,
-                                                spreadRadius: 4,
-                                                offset: Offset(-5, 10),
+                                        Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                print('Gesture Detected');
+                                              },
+                                              child: Container(
+                                                height: mHeight * .4,
+                                                width: mWidth * .4,
+                                                decoration: BoxDecoration(
+                                                  color: color[index],
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Colors.grey,
+                                                      blurRadius: 8,
+                                                      spreadRadius: 4,
+                                                      offset: Offset(-5, 10),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Image.network(
+                                                  "https://picsum.photos/300/200",
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                          child: Image.network(
-                                            "https://picsum.photos/300/200",
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ), )
-                                    ),
+                                            )),
                               ),
                             ),
                             SizedBox(
@@ -223,45 +218,43 @@ class _ScreenHomeState extends State<ScreenHome> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: productModel.length,
                                 gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 5,
-                                    childAspectRatio: .65),
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 5,
+                                        crossAxisSpacing: 5,
+                                        childAspectRatio: .65),
                                 itemBuilder:
                                     (BuildContext context, int index) =>
-                                    Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: GestureDetector(
-                                        onTap: (){
-                                          print('Gesture Detected');
-                                        },
-                                        child: Container(
-                                          height: mHeight * .4,
-                                          width: mWidth * .4,
-                                          decoration: BoxDecoration(
-                                            color: color[index],
-                                            borderRadius: BorderRadius.circular(
-                                                5),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.grey,
-                                                blurRadius: 8,
-                                                spreadRadius: 4,
-                                                offset: Offset(-5, 10),
-                                              ),
-                                            ],
+                                        Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print('Gesture Detected');
+                                    },
+                                    child: Container(
+                                      height: mHeight * .4,
+                                      width: mWidth * .4,
+                                      decoration: BoxDecoration(
+                                        color: color[index],
+                                        borderRadius: BorderRadius.circular(5),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 8,
+                                            spreadRadius: 4,
+                                            offset: Offset(-5, 10),
                                           ),
-                                          child: Image.network(
-                                            "https://picsum.photos/200/300",
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                        ],
+                                      ),
+                                      child: Image.network(
+                                        "https://picsum.photos/200/300",
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
+                                  ),
+                                ),
                               ),
                             ),
-
                           ],
                         );
                       }

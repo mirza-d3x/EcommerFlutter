@@ -20,6 +20,6 @@ class GetProductsBloc extends Bloc<GetProductsEvent, GetProductsState> {
         print('Bloc============================$e');
         emit(ProductsError());
       }
-    });
+    },);
   }
 }

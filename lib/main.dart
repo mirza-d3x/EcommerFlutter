@@ -1,13 +1,12 @@
 import 'package:ecommerceapi/Api/User/UserApi.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/UI/SplashScreeen/ScreenSplash.dart';
+import 'package:ecommerceapi/UI/ProductScreen/ProductScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Api/Product/productApi.dart';
 import 'Bloc/Login/login_bloc.dart';
 import 'Bloc/Products/get_products_bloc.dart';
 import 'Bloc/signUp/sign_up_bloc.dart';
-import 'UI/ProductScreen/ProductScreen.dart';
 
 void main() {
   UserApi userApi = UserApi();
