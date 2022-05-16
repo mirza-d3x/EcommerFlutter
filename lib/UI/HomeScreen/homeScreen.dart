@@ -1,13 +1,14 @@
 import 'package:ecommerceapi/Api/Product/productModel.dart';
-import 'package:ecommerceapi/UI/keyWordList.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ecommerceapi/Bloc/Products/GetAllProducts/get_products_bloc.dart';
 import 'package:ecommerceapi/UI/LoginScreen/LoginScreen.dart';
+import 'package:ecommerceapi/UI/ProductScreen/ProductScreen.dart';
 import 'package:ecommerceapi/UI/colorList.dart';
+import 'package:ecommerceapi/UI/keyWordList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../Bloc/Products/get_products_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     // TODO: implement initState
     super.initState();
     _pageController = PageController(viewportFraction: 0.95, keepPage: false);
-    BlocProvider.of<GetProductsBloc>(context).add(GetProductsEventNew());
+    BlocProvider.of<GetProductsBloc>(context).add(GetProducts());
   }
 
   exit() {
@@ -156,6 +157,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                                     GestureDetector(
                                   onTap: () {
                                     print('Gesture Detected');
+                                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScreenProduct(id: productModel[index].id.toString(),)));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScreenProduct(id: productModel[index].id.toString(),)));
                                   },
                                   child: Container(
                                     width: mWidth * .97,
@@ -187,6 +190,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                             child: GestureDetector(
                                               onTap: () {
                                                 print('Gesture Detected');
+                                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScreenProduct(id: productModel[index].id.toString(),)));
                                               },
                                               child: Container(
                                                 height: mHeight * .4,
@@ -230,6 +234,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                   child: GestureDetector(
                                     onTap: () {
                                       print('Gesture Detected');
+                                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScreenProduct(id: productModel[index].id.toString(),)));
                                     },
                                     child: Container(
                                       height: mHeight * .4,

@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
+import 'package:ecommerceapi/Bloc/User/signUp/sign_up_bloc.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/Bloc/signUp/sign_up_bloc.dart';
 import 'package:ecommerceapi/UI/HomeScreen/homeScreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

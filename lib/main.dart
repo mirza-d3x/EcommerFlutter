@@ -1,16 +1,17 @@
+import 'package:ecommerceapi/Api/Product/productApi.dart';
 import 'package:ecommerceapi/Api/User/UserApi.dart';
+import 'package:ecommerceapi/Bloc/User/Login/login_bloc.dart';
+import 'package:ecommerceapi/Bloc/User/signUp/sign_up_bloc.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
-import 'package:ecommerceapi/UI/ProductScreen/ProductScreen.dart';
+import 'package:ecommerceapi/UI/SplashScreeen/ScreenSplash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'Api/Product/productApi.dart';
-import 'Bloc/Login/login_bloc.dart';
-import 'Bloc/Products/get_products_bloc.dart';
-import 'Bloc/signUp/sign_up_bloc.dart';
+import 'Bloc/Products/GetAllProducts/get_products_bloc.dart';
+import 'Bloc/Products/GetProductsID/get_id_product_bloc.dart';
 
 void main() {
   UserApi userApi = UserApi();
-  ProductApi productApi = ProductApi();
+ ProductApi productApi = ProductApi();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -24,6 +25,9 @@ void main() {
       ),
       BlocProvider(
         create: (context) => GetProductsBloc(productApi),
+      ),
+      BlocProvider(
+        create: (context) => GetIdProductBloc(productApi),
       ),
     ],
     child: const MyApp(),
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: ScreenProduct(),
+      home: const ScreenSplash(),
     );
   }
 }

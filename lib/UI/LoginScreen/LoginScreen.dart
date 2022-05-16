@@ -1,3 +1,4 @@
+import 'package:ecommerceapi/Bloc/User/Login/login_bloc.dart';
 import 'package:ecommerceapi/Bloc/obscureText/obscure_bloc.dart';
 import 'package:ecommerceapi/UI/HomeScreen/homeScreen.dart';
 import 'package:ecommerceapi/UI/SignUpScreen/ScreenSignUp.dart';
@@ -7,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerceapi/Consatants/colors.dart';
 import 'package:ecommerceapi/Consatants/Sizes.dart';
-import '../../Bloc/Login/login_bloc.dart';
 import '../../CustomDesigns/CustomShapeLogin.dart';
 import '../Widgets/validation.dart';
 
